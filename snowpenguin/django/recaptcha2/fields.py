@@ -10,6 +10,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+
 class ReCaptchaField(forms.CharField):
     def __init__(self, attrs={}, *args, **kwargs):
         super(ReCaptchaField, self).__init__(*args, **kwargs)
@@ -44,8 +45,9 @@ class ReCaptchaField(forms.CharField):
         if bool(json_response['success']):
             return values[0]
         else:
-            if 'missing-input-secret' in json_response['error-codes'] or \
-                    'invalid-input-secret' in json_response['error-codes']:
+            error_codes = json_response.get('error-codes', [])
+            if 'missing-input-secret' in error_codes or \
+                    'invalid-input-secret' in error_codes:
 
                 logger.exception('Invalid reCaptcha secret key detected')
                 raise ValidationError(
