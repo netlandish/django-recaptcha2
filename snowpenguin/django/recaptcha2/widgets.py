@@ -16,7 +16,7 @@ class ReCaptchaWidget(Widget):
         self.expired_callback = expired_callback
         self.attrs = attrs
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         template = 'snowpenguin/recaptcha/'
         template += 'recaptcha_explicit.html' if self.explicit else 'recaptcha_automatic.html'
 
